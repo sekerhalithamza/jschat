@@ -1,0 +1,40 @@
+:root {
+	--primary: #25d366;
+	--primary-dark: #1daa61;
+	--background: #2c2c2c;
+	--background-dark: #202020;
+	--blue: #3376d0;
+	--white: #f7f7f7;
+	--gray: #cfcfcf;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+	outline: none;
+}
+
+html {
+	font-size: 100%;
+	width: 100vw;
+	min-height: 100vh;
+	scroll-behavior: smooth;
+}
+
+body {
+	width: 100%;
+	height: fit-content;
+	min-height: 100vh;
+}
+
+textarea,
+input,
+button,
+select {
+	font: inherit;
+	color: inherit;
+	word-spacing: inherit;
+	letter-spacing: inherit;
+}
