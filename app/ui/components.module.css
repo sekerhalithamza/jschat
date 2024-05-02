@@ -1,0 +1,30 @@
+.input {
+	background-color: transparent;
+	padding-inline: 5%;
+	padding-block: 4%;
+	border: 2px solid var(--gray);
+	border-radius: 10px;
+	width: 100%;
+}
+
+.input::placeholder {
+	font-size: 18px;
+	color: var(--gray);
+}
+
+.button {
+	padding-block: 15px;
+	padding-inline: 25px;
+	border-radius: 10px;
+	font-size: 20px;
+}
+
+.button.primary {
+	background-color: var(--primary-dark);
+}
+
+.button.secondary {
+	background-color: transparent;
+	outline: 2px solid var(--gray);
+	outline-offset: -2px;
+}
