@@ -21,14 +21,17 @@ html {
 	width: 100vw;
 	min-height: 100vh;
 	scroll-behavior: smooth;
+	color: var(--white);
 }
 
 body {
 	width: 100%;
-	height: fit-content;
 	min-height: 100vh;
+	height: fit-content;
+	background-color: var(--background);
 }
 
+a,
 textarea,
 input,
 button,
@@ -37,4 +40,8 @@ select {
 	color: inherit;
 	word-spacing: inherit;
 	letter-spacing: inherit;
+}
+
+a {
+	text-decoration: none;
 }
