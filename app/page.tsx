@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import styles from "./page.module.css";
-import { Button } from "@/app/ui/mainComponents";
+import { Button, Input } from "@/app/ui/mainComponents";
 
 export default function Home() {
 	function sliderAnimation() {
@@ -42,21 +42,9 @@ export default function Home() {
 				<div className={`${styles.container} ${styles.signUp}`}>
 					<h3 className={`${styles.title}`}>Sign Up</h3>
 					<form className={`${styles.form}`}>
-						<input
-							className={`${styles.input}`}
-							type="text"
-							placeholder="Username"
-						></input>
-						<input
-							className={`${styles.input}`}
-							type="email"
-							placeholder="E-Mail"
-						></input>
-						<input
-							className={`${styles.input}`}
-							type="password"
-							placeholder="Password"
-						></input>
+						<Input inputType="text" placeholder="Username"></Input>
+						<Input inputType="email" placeholder="E-Mail"></Input>
+						<Input inputType="password" placeholder="Password"></Input>
 						<Button
 							child="Submit"
 							style="primary"
@@ -68,21 +56,9 @@ export default function Home() {
 				<div className={`${styles.container} ${styles.signIn}`}>
 					<h3 className={`${styles.title}`}>Sign In</h3>
 					<form className={`${styles.form}`}>
-						<input
-							className={`${styles.input}`}
-							type="text"
-							placeholder="Username"
-						></input>
-						<input
-							className={`${styles.input}`}
-							type="email"
-							placeholder="E-Mail"
-						></input>
-						<input
-							className={`${styles.input}`}
-							type="password"
-							placeholder="Password"
-						></input>
+						<Input inputType="text" placeholder="Username"></Input>
+						<Input inputType="email" placeholder="E-Mail"></Input>
+						<Input inputType="password" placeholder="Password"></Input>
 						<Button
 							child="Submit"
 							style="primary"

@@ -1,6 +1,5 @@
-"use client";
-
 import styles from "@/app/ui/mainComponents.module.css";
+import { strict } from "assert";
 
 export function Button({
 	child,
@@ -27,5 +26,45 @@ export function Button({
 		>
 			{child}
 		</button>
+	);
+}
+
+export function Input({
+	extraStyles,
+	inputType,
+	placeholder,
+}: {
+	extraStyles?: string[];
+	inputType:
+	| "button"
+	| "checkbox"
+	| "color"
+	| "date"
+	| "datetime-local"
+	| "email"
+	| "file"
+	| "hidden"
+	| "image"
+	| "month"
+	| "number"
+	| "password"
+	| "radio"
+	| "range"
+	| "reset"
+	| "search"
+	| "submit"
+	| "tel"
+	| "text"
+	| "time"
+	| "url"
+	| "week";
+	placeholder: string;
+}) {
+	return (
+		<input
+			className={`${styles.input} ${extraStyles?.join(" ")}`}
+			type={inputType}
+			placeholder={placeholder}
+		></input>
 	);
 }
