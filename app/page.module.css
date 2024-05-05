@@ -67,19 +67,7 @@
 }
 
 .sliderButton {
-	background-color: transparent;
-	border: 5px solid var(--white);
-	padding-block: 15px;
-	padding-inline: 30px;
-	font-size: 24px;
-	border-radius: 20px;
 	margin-block-start: 20px;
-	transition: all 500ms ease;
-}
-
-.sliderButton:hover {
-	background-color: var(--white);
-	color: var(--background-dark);
 }
 
 .slider.onRight {
@@ -130,6 +118,10 @@
 	gap: 20px;
 }
 
+.formButton {
+	margin-block-start: 20px;
+}
+
 .input {
 	background-color: transparent;
 	border: 2px solid var(--gray);
@@ -147,22 +139,6 @@
 
 .input::placeholder {
 	font-size: 20px;
-}
-
-.submitButton {
-	background-color: var(--primary-dark);
-	font-size: 24px;
-	padding-block: 15px;
-	padding-inline: 30px;
-	border-radius: 15px;
-	border: 2px solid var(--primary-dark);
-	transition: 500ms ease;
-	margin-block-start: 10px;
-}
-
-.submitButton:hover {
-	background-color: transparent;
-	border: 2px solid var(--primary);
 }
 
 .link {

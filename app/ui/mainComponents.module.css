@@ -1,0 +1,27 @@
+.button {
+	font-size: 24px;
+	padding-block: 15px;
+	padding-inline: 30px;
+	border-radius: 15px;
+	transition: all 500ms ease;
+}
+
+.button.primary {
+	background-color: var(--primary-dark);
+	border: 2px solid var(--primary-dark);
+}
+
+.button.primary:hover {
+	background-color: transparent;
+	border: 2px solid var(--primary);
+}
+
+.button.secondary {
+	background-color: transparent;
+	border: 5px solid var(--white);
+}
+
+.button.secondary:hover {
+	background-color: var(--white);
+	color: var(--background-dark);
+}

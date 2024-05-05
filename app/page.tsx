@@ -3,30 +3,40 @@
 import Image from "next/image";
 
 import styles from "./page.module.css";
+import { Button } from "@/app/ui/mainComponents";
 
 export default function Home() {
 	function sliderAnimation() {
 		const slider = document.getElementById("slider");
 		slider?.classList.toggle(styles.onRight);
-		console.log("help");
 	}
 	return (
 		<main className={`${styles.main}`}>
 			<section className={`${styles.section}`}>
-				<div className={`${styles.slider}`} id="slider">
+				<div className={`${styles.slider} ${styles.onRight}`} id="slider">
 					<div className={`${styles.sliderContainer} ${styles.containerLeft}`}>
 						<h2 className={`${styles.sliderTitle}`}>Hello Friend!</h2>
 						<p className={`${styles.sliderText}`}>Join us and have fun.</p>
-						<button onClick={sliderAnimation} type="button" className={`${styles.sliderButton}`}>
-							Sign Up
-						</button>
+						<Button
+							child="Sign Up"
+							event={sliderAnimation}
+							buttonType="button"
+							style="secondary"
+							extraStyles={[styles.sliderButton]}
+						></Button>
 					</div>
 					<div className={`${styles.sliderContainer} ${styles.containerRight}`}>
 						<h2 className={`${styles.sliderTitle}`}>Welcome Back Friend!</h2>
-						<p className={`${styles.sliderText}`}>If you already have an account.</p>
-						<button onClick={sliderAnimation} type="button" className={`${styles.sliderButton}`}>
-							Sign In
-						</button>
+						<p className={`${styles.sliderText}`}>
+							If you already have an account.
+						</p>
+						<Button
+							child="Sign Up"
+							event={sliderAnimation}
+							buttonType="button"
+							style="secondary"
+							extraStyles={[styles.sliderButton]}
+						></Button>
 					</div>
 				</div>
 				<div className={`${styles.container} ${styles.signUp}`}>
@@ -47,7 +57,12 @@ export default function Home() {
 							type="password"
 							placeholder="Password"
 						></input>
-						<button className={`${styles.submitButton}`}>Submit</button>
+						<Button
+							child="Submit"
+							style="primary"
+							buttonType="submit"
+							extraStyles={[styles.formButton]}
+						></Button>
 					</form>
 				</div>
 				<div className={`${styles.container} ${styles.signIn}`}>
@@ -68,7 +83,12 @@ export default function Home() {
 							type="password"
 							placeholder="Password"
 						></input>
-						<button className={`${styles.submitButton}`}>Submit</button>
+						<Button
+							child="Submit"
+							style="primary"
+							buttonType="submit"
+							extraStyles={[styles.formButton]}
+						></Button>
 						<a href="#" className={`${styles.link}`}>
 							Forgot Password?
 						</a>
