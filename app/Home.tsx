@@ -1,10 +1,6 @@
 "use client";
-
-import Image from "next/image";
-
 import styles from "./page.module.css";
 import { Button, Input } from "@/app/ui/mainComponents";
-
 import { createUser } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
 
@@ -16,7 +12,9 @@ export default function Home() {
 
 	const initialState = { message: null, errors: {} };
 
-	const [state, submit] = useFormState(createUser, initialState);
+	const [state, dispatch] = useFormState(createUser, initialState);
+	console.log(state);
+
 	return (
 		<main className={`${styles.main}`}>
 			<section className={`${styles.section}`}>
@@ -48,14 +46,10 @@ export default function Home() {
 				</div>
 				<div className={`${styles.container} ${styles.signUp}`}>
 					<h3 className={`${styles.title}`}>Sign Up</h3>
-					<form className={`${styles.form}`} action={submit}>
-						<Input inputType="text" placeholder="Username" name="name"></Input>
-						<Input inputType="email" placeholder="E-Mail" name="email"></Input>
-						<Input
-							inputType="password"
-							placeholder="Password"
-							name="password"
-						></Input>
+					<form className={`${styles.form}`} action={dispatch}>
+						<Input inputType="text" placeholder="Username"></Input>
+						<Input inputType="email" placeholder="E-Mail"></Input>
+						<Input inputType="password" placeholder="Password"></Input>
 						<Button
 							child="Submit"
 							style="primary"
@@ -67,13 +61,9 @@ export default function Home() {
 				<div className={`${styles.container} ${styles.signIn}`}>
 					<h3 className={`${styles.title}`}>Sign In</h3>
 					<form className={`${styles.form}`}>
-						<Input inputType="text" placeholder="Username" name="name"></Input>
-						<Input inputType="email" placeholder="E-Mail" name="email"></Input>
-						<Input
-							inputType="password"
-							placeholder="Password"
-							name="password"
-						></Input>
+						<Input inputType="text" placeholder="Username"></Input>
+						<Input inputType="email" placeholder="E-Mail"></Input>
+						<Input inputType="password" placeholder="Password"></Input>
 						<Button
 							child="Submit"
 							style="primary"

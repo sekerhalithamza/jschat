@@ -59,6 +59,7 @@ export function Input({
 	| "url"
 	| "week";
 	placeholder: string;
+	name: string;
 }) {
 	return (
 		<input
