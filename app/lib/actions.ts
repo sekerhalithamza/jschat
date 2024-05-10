@@ -6,11 +6,12 @@ import { User, FormSchema, State } from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { db } from "@vercel/postgres";
 
 const CreateUser = FormSchema.omit({ id: true });
 
-export async function createUser(prevState: State, formData: FormData) {
+const LoginUser = FormSchema.omit({ id: true });
+
+export async function createUser(prevState: State | null, formData: FormData) {
 	const validatedFields = CreateUser.safeParse({
 		name: formData.get("name"),
 		email: formData.get("email"),
@@ -18,10 +19,7 @@ export async function createUser(prevState: State, formData: FormData) {
 	});
 
 	if (!validatedFields.success) {
-		return {
-			errors: validatedFields.error.flatten().fieldErrors,
-			message: "Failed to create user",
-		};
+		return { errors: validatedFields.error.flatten().fieldErrors };
 	}
 
 	const { name, email, password } = validatedFields.data;

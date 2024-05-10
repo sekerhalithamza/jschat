@@ -16,10 +16,10 @@ export const FormSchema = z.object({
 
 export type State = {
 	errors?: {
-		name?: string;
-		email?: string;
-		password?: string;
+		name?: string[];
+		email?: string[];
+		password?: string[];
 	};
 
-	message?: {};
+	message?: string | null;
 };
