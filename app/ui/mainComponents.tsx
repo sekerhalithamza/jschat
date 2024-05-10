@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "@/app/ui/mainComponents.module.css";
 import { strict } from "assert";
 
@@ -10,6 +12,7 @@ export function Button({
 }: {
 	child: React.ReactNode;
 	event?: Function;
+	action?: Function;
 	style: "primary" | "secondary";
 	extraStyles?: string[];
 	buttonType: "submit" | "button" | "reset";
@@ -33,6 +36,7 @@ export function Input({
 	extraStyles,
 	inputType,
 	placeholder,
+	name,
 }: {
 	extraStyles?: string[];
 	inputType:
@@ -66,6 +70,7 @@ export function Input({
 			className={`${styles.input} ${extraStyles?.join(" ")}`}
 			type={inputType}
 			placeholder={placeholder}
+			name={name}
 		></input>
 	);
 }
