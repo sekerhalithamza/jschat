@@ -11,7 +11,37 @@ const CreateUser = FormSchema.omit({ id: true });
 
 const LoginUser = FormSchema.omit({ id: true });
 
-export async function createUser(prevState: State | null, formData: FormData) {
+export async function signUp(prevState: State | null, formData: FormData) {
+	const validatedFields = CreateUser.safeParse({
+		name: formData.get("name"),
+		email: formData.get("email"),
+		password: formData.get("password"),
+	});
+
+	if (!validatedFields.success) {
+		return { errors: validatedFields.error.flatten().fieldErrors };
+	}
+
+	const { name, email, password } = validatedFields.data;
+
+	const hashedPassword = sha256(password);
+
+	try {
+		await sql`
+			INSERT INTO users (name, email, password)
+			VALUES (${name}, ${email}, ${hashedPassword})
+		`;
+	} catch (err) {
+		return {
+			message: `Error: Failed to create user: ${err}`,
+		};
+	}
+
+	revalidatePath("/");
+	redirect("/");
+}
+
+export async function signIn(prevState: State | null, formData: FormData) {
 	const validatedFields = CreateUser.safeParse({
 		name: formData.get("name"),
 		email: formData.get("email"),

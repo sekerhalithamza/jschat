@@ -9,6 +9,7 @@ export function Button({
 	style,
 	extraStyles,
 	buttonType,
+	disable,
 }: {
 	child: React.ReactNode;
 	event?: Function;
@@ -16,6 +17,7 @@ export function Button({
 	style: "primary" | "secondary";
 	extraStyles?: string[];
 	buttonType: "submit" | "button" | "reset";
+	disable?: boolean;
 }) {
 	const handleClick = () => {
 		if (event) event();

@@ -2,20 +2,21 @@
 
 import { Input, Button } from "@/app/ui/mainComponents";
 import styles from "@/app/ui/login/form.module.css";
-import { useFormState } from "react-dom";
-import { createUser } from "@/app/lib/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import { signUp } from "@/app/lib/actions";
+import { signIn } from "@/app/lib/actions";
 
 export default function Form({ version }: { version: "signIn" | "signUp" }) {
-	const [createUserState, createUserAction] = useFormState(createUser, null);
-	const [loginUserState, loginUserAction] = useFormState(createUser, null);
+	const [signUpState, signUpAction] = useFormState(signUp, null);
+	const [signInState, signInAction] = useFormState(signUp, null);
 	switch (version) {
 		case "signUp":
 			return (
-				<form className={`${styles.form}`} action={createUserAction}>
+				<form className={`${styles.form}`} action={signUpAction}>
 					<Input inputType="text" placeholder="Username" name="name"></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{createUserState?.errors?.name &&
-							createUserState?.errors.name.map((err: string) => (
+						{signUpState?.errors?.name &&
+							signUpState?.errors.name.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
@@ -23,8 +24,8 @@ export default function Form({ version }: { version: "signIn" | "signUp" }) {
 					</div>
 					<Input inputType="email" placeholder="E-Mail" name="email"></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{createUserState?.errors?.email &&
-							createUserState?.errors.email.map((err: string) => (
+						{signUpState?.errors?.email &&
+							signUpState?.errors.email.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
@@ -36,34 +37,27 @@ export default function Form({ version }: { version: "signIn" | "signUp" }) {
 						name="password"
 					></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{createUserState?.errors?.password &&
-							createUserState?.errors.password.map((err: string) => (
+						{signUpState?.errors?.password &&
+							signUpState?.errors.password.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
 							))}
 					</div>
-					<Button
-						child="Submit"
-						style="primary"
-						buttonType="submit"
-						extraStyles={[styles.formButton]}
-					></Button>
-					{createUserState?.message && (
-						<p className={`${styles.errorMessage}`}>
-							{createUserState.message}
-						</p>
+					<Submit></Submit>
+					{signUpState?.message && (
+						<p className={`${styles.errorMessage}`}>{signUpState.message}</p>
 					)}
 				</form>
 			);
 
 		case "signIn":
 			return (
-				<form className={`${styles.form}`} action={loginUserAction}>
+				<form className={`${styles.form}`} action={signInAction}>
 					<Input inputType="text" placeholder="Username" name="name"></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{createUserState?.errors?.name &&
-							createUserState?.errors.name.map((err: string) => (
+						{signInState?.errors?.name &&
+							signInState?.errors.name.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
@@ -71,8 +65,8 @@ export default function Form({ version }: { version: "signIn" | "signUp" }) {
 					</div>
 					<Input inputType="email" placeholder="E-Mail" name="email"></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{loginUserState?.errors?.email &&
-							loginUserState?.errors.email.map((err: string) => (
+						{signInState?.errors?.email &&
+							signInState?.errors.email.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
@@ -84,28 +78,39 @@ export default function Form({ version }: { version: "signIn" | "signUp" }) {
 						name="password"
 					></Input>
 					<div className={`${styles.fieldErrorContainer}`}>
-						{loginUserState?.errors?.password &&
-							loginUserState?.errors.password.map((err: string) => (
+						{signInState?.errors?.password &&
+							signInState?.errors.password.map((err: string) => (
 								<p className={`${styles.fieldErrorText}`} key={err}>
 									{err}
 								</p>
 							))}
 					</div>
-					<Button
-						child="Submit"
-						style="primary"
-						buttonType="submit"
-						extraStyles={[styles.formButton]}
-					></Button>
+					<Submit></Submit>
 					<a href="#" className={`${styles.link}`}>
 						Forgot Password?
 					</a>
-					{loginUserState?.message && (
-						<p className={`${styles.errorMessage} ${styles.loginError}`}>
-							{loginUserState.message}
+					{signInState?.message && (
+						<p className={`${styles.errorMessage} ${styles.signInError}`}>
+							{signInState.message}
 						</p>
 					)}
 				</form>
 			);
 	}
+}
+
+function Submit() {
+	const { pending } = useFormStatus();
+
+	const child = pending ? "Submitting..." : "Submit";
+
+	return (
+		<Button
+			child={child}
+			style="primary"
+			buttonType="submit"
+			extraStyles={[styles.formButton]}
+			disable={pending}
+		></Button>
+	);
 }
