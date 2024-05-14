@@ -2,7 +2,7 @@
 
 import { sha256 } from "js-sha256";
 
-import { User, FormSchema, State } from "@/app/lib/definitions";
+import { FormSchema, State } from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -42,14 +42,16 @@ export async function signUp(prevState: State | null, formData: FormData) {
 }
 
 export async function signIn(prevState: State | null, formData: FormData) {
-	const validatedFields = CreateUser.safeParse({
+	const validatedFields = LoginUser.safeParse({
 		name: formData.get("name"),
 		email: formData.get("email"),
 		password: formData.get("password"),
 	});
 
 	if (!validatedFields.success) {
-		return { errors: validatedFields.error.flatten().fieldErrors };
+		return {
+			errors: validatedFields.error?.flatten().fieldErrors,
+		};
 	}
 
 	const { name, email, password } = validatedFields.data;
@@ -57,16 +59,12 @@ export async function signIn(prevState: State | null, formData: FormData) {
 	const hashedPassword = sha256(password);
 
 	try {
-		await sql`
-			INSERT INTO users (name, email, password)
-			VALUES (${name}, ${email}, ${hashedPassword})
+		const user = await sql`
+			SELECT * FROM WHERE name = ${name} email = ${email} password = ${hashedPassword}
 		`;
 	} catch (err) {
 		return {
-			message: `Error: Failed to create user: ${err}`,
+			message: `Error, failed to fetch user: ${err}`,
 		};
 	}
-
-	revalidatePath("/");
-	redirect("/");
 }
