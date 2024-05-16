@@ -44,10 +44,25 @@
 	bottom: 10px;
 	left: 10px;
 	border-radius: 10px;
-	z-index: 5;
+	z-index: 999;
 }
 
 .errorMessage.loginError {
 	left: auto;
 	right: 10px;
+}
+
+.successContainer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 9999;
+	display: grid;
+	place-items: center;
+	background-color: var(--primary);
+	padding-inline: 40px;
+	padding-block: 30px;
+	font-size: 24px;
+	color: var(--background-dark);
 }

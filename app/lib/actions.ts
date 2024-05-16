@@ -2,16 +2,19 @@
 
 import { sha256 } from "js-sha256";
 
-import { FormSchema, State } from "@/app/lib/definitions";
+import { FormSchema, SignInState, SignUpState } from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const CreateUser = FormSchema.omit({ id: true });
 
 const LoginUser = FormSchema.omit({ id: true });
 
-export async function signUp(prevState: State | null, formData: FormData) {
+export async function signUp(
+	prevState: SignInState | null,
+	formData: FormData,
+) {
 	const validatedFields = CreateUser.safeParse({
 		name: formData.get("name"),
 		email: formData.get("email"),
@@ -19,7 +22,10 @@ export async function signUp(prevState: State | null, formData: FormData) {
 	});
 
 	if (!validatedFields.success) {
-		return { errors: validatedFields.error.flatten().fieldErrors };
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+			success: false,
+		};
 	}
 
 	const { name, email, password } = validatedFields.data;
@@ -34,14 +40,17 @@ export async function signUp(prevState: State | null, formData: FormData) {
 	} catch (err) {
 		return {
 			message: `Error: Failed to create user: ${err}`,
+			success: false,
 		};
 	}
 
-	revalidatePath("/");
-	redirect("/");
+	return { success: true };
 }
 
-export async function signIn(prevState: State | null, formData: FormData) {
+export async function signIn(
+	prevState: SignInState | null,
+	formData: FormData,
+) {
 	const validatedFields = LoginUser.safeParse({
 		name: formData.get("name"),
 		email: formData.get("email"),
@@ -60,11 +69,14 @@ export async function signIn(prevState: State | null, formData: FormData) {
 
 	try {
 		const user = await sql`
-			SELECT * FROM WHERE name = ${name} email = ${email} password = ${hashedPassword}
+			SELECT * FROM users WHERE (name = ${name} AND email = ${email} AND password = ${hashedPassword})
 		`;
 	} catch (err) {
 		return {
 			message: `Error, failed to fetch user: ${err}`,
 		};
 	}
+
+	revalidatePath("/home");
+	redirect("/home");
 }

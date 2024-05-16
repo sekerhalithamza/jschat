@@ -4,10 +4,6 @@ import { Button } from "@/app/ui/mainComponents";
 import styles from "@/app/ui/login/slider.module.css";
 
 export default function Slider() {
-	function sliderAnimation() {
-		const slider = document.getElementById("slider");
-		slider?.classList.toggle(styles.onRight);
-	}
 	return (
 		<div className={`${styles.slider} ${styles.onRight}`} id="slider">
 			<div className={`${styles.sliderContainer} ${styles.containerLeft}`}>
@@ -36,4 +32,9 @@ export default function Slider() {
 			</div>
 		</div>
 	);
+}
+
+export function sliderAnimation() {
+	const slider = document.getElementById("slider");
+	slider?.classList.toggle(styles.onRight);
 }

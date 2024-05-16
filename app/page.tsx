@@ -1,7 +1,4 @@
-import Image from "next/image";
-
 import styles from "./page.module.css";
-import { Button, Input } from "@/app/ui/mainComponents";
 import Slider from "@/app/ui/login/slider";
 import Form from "@/app/ui/login/form";
 

@@ -7,7 +7,7 @@ export const FormSchema = z.object({
 	password: z.string().min(6),
 });
 
-export type State = {
+export type SignInState = {
 	errors?: {
 		name?: string[];
 		email?: string[];
@@ -15,4 +15,15 @@ export type State = {
 	};
 
 	message?: string | null;
+};
+
+export type SignUpState = {
+	errors?: {
+		name?: string[];
+		email?: string[];
+		password?: string[];
+	};
+
+	message?: string | null;
+	success: boolean;
 };
