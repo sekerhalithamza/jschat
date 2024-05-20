@@ -1,6 +1,8 @@
 "use server";
 
 import { sha256 } from "js-sha256";
+import * as jose from "jose";
+import { cookies } from "next/headers";
 
 import { FormSchema, SignInState, SignUpState } from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
@@ -68,9 +70,16 @@ export async function signIn(
 	const hashedPassword = sha256(password);
 
 	try {
-		const user = await sql`
+		const userData = await sql`
 			SELECT * FROM users WHERE (name = ${name} AND email = ${email} AND password = ${hashedPassword})
 		`;
+
+		const user = userData.rows[0];
+
+		cookies().set({
+			name: "userData",
+			value: JSON.stringify(user),
+		});
 	} catch (err) {
 		return {
 			message: `Error, failed to fetch user: ${err}`,

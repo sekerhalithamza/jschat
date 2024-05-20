@@ -6,22 +6,21 @@ import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "@/app/lib/actions";
 import { signIn } from "@/app/lib/actions";
 import { sliderAnimation } from "@/app/ui/login/slider";
-import { useState } from "react";
 
 export default function Form({ version }: { version: "signIn" | "signUp" }) {
 	const [signUpState, signUpAction] = useFormState(signUp, null);
 	const [signInState, signInAction] = useFormState(signIn, null);
-	const [successState, toggleState] = useState(signUpState?.success);
 	function handleClick() {
-		toggleState(false);
+		const container = document.getElementById("successContainer");
+		container?.remove();
 		sliderAnimation();
 	}
 	switch (version) {
 		case "signUp":
 			return (
 				<form className={`${styles.form}`} action={signUpAction}>
-					{successState && (
-						<div className={styles.successContainer}>
+					{signUpState?.success && (
+						<div className={styles.successContainer} id="successContainer">
 							<p className={styles.successMessage}>
 								You have succesfully Signed Up!
 							</p>

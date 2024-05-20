@@ -1,8 +1,21 @@
 import styles from "./page.module.css";
 import Slider from "@/app/ui/login/slider";
 import Form from "@/app/ui/login/form";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export default async function Home() {
+	const userData = cookies().get("userData");
+
+	if (userData?.value) {
+		const user = JSON.parse(userData.value);
+		if (user.name) {
+			revalidatePath("/home");
+			redirect("/home");
+		}
+	}
+
 	return (
 		<main className={`${styles.main}`}>
 			<section className={`${styles.section}`}>
