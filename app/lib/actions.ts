@@ -76,6 +76,12 @@ export async function signIn(
 
 		const user = userData.rows[0];
 
+		if (!user) {
+			return {
+				message: "Error: invalid username, email or password",
+			};
+		}
+
 		cookies().set({
 			name: "userData",
 			value: JSON.stringify(user),
