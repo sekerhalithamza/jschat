@@ -27,3 +27,9 @@ export type SignUpState = {
 	message?: string | null;
 	success: boolean;
 };
+
+export type User = {
+	name?: string;
+	email?: string;
+	password?: string;
+};

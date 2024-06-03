@@ -1,10 +1,14 @@
 "use server";
 
 import { sha256 } from "js-sha256";
-import * as jose from "jose";
 import { cookies } from "next/headers";
 
-import { FormSchema, SignInState, SignUpState } from "@/app/lib/definitions";
+import {
+	FormSchema,
+	SignInState,
+	SignUpState,
+	User,
+} from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -71,14 +75,32 @@ export async function signIn(
 
 	try {
 		const userData = await sql`
-			SELECT * FROM users WHERE (name = ${name} AND email = ${email} AND password = ${hashedPassword})
+			SELECT * FROM users WHERE (name = ${name})
 		`;
 
-		const user = userData.rows[0];
+		const user: User = userData.rows[0];
 
 		if (!user) {
 			return {
-				message: "Error: invalid username, email or password",
+				errors: {
+					name: ["Name could not be found"],
+				},
+			};
+		}
+
+		if (email != user.email) {
+			return {
+				errors: {
+					email: ["Email did not match"],
+				},
+			};
+		}
+
+		if (hashedPassword != user.password) {
+			return {
+				errors: {
+					password: ["Password did not match"],
+				},
 			};
 		}
 

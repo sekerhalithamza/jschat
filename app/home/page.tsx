@@ -2,7 +2,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-export default function Page() {
+export default async function Page() {
+	loginCheck();
+
+	return <h1>Hello</h1>;
+}
+
+function loginCheck() {
 	const userData = cookies().get("userData");
 	if (!userData?.value) {
 		revalidatePath("/");
@@ -15,6 +21,4 @@ export default function Page() {
 		revalidatePath("/");
 		redirect("/");
 	}
-
-	return `hello ${user.name}`;
 }
