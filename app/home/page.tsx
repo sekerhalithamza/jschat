@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
 export default async function Page() {
-	loginCheck();
+	const user = await loginCheck();
 
-	return <h1>Hello</h1>;
+	return <h1>Hello {user.name}</h1>;
 }
 
 function loginCheck() {
@@ -21,4 +21,6 @@ function loginCheck() {
 		revalidatePath("/");
 		redirect("/");
 	}
+
+	return user;
 }

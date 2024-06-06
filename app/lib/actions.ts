@@ -9,16 +9,19 @@ import {
 	SignUpState,
 	User,
 } from "@/app/lib/definitions";
-import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { PrismaClient } from "@prisma/client";
+import { hash } from "crypto";
+
+const prisma = new PrismaClient();
 
 const CreateUser = FormSchema.omit({ id: true });
 
 const LoginUser = FormSchema.omit({ id: true });
 
 export async function signUp(
-	prevState: SignInState | null,
+	prevState: SignUpState | null,
 	formData: FormData,
 ) {
 	const validatedFields = CreateUser.safeParse({
@@ -39,10 +42,13 @@ export async function signUp(
 	const hashedPassword = sha256(password);
 
 	try {
-		await sql`
-			INSERT INTO users (name, email, password)
-			VALUES (${name}, ${email}, ${hashedPassword})
-		`;
+		const user = await prisma.user.create({
+			data: {
+				name: name,
+				email: email,
+				password: hashedPassword,
+			},
+		});
 	} catch (err) {
 		return {
 			message: `Error: Failed to create user: ${err}`,
@@ -74,19 +80,11 @@ export async function signIn(
 	const hashedPassword = sha256(password);
 
 	try {
-		const userData = await sql`
-			SELECT * FROM users WHERE (name = ${name})
-		`;
-
-		const user: User = userData.rows[0];
-
-		if (!user) {
-			return {
-				errors: {
-					name: ["Name could not be found"],
-				},
-			};
-		}
+		const user = await prisma.user.findUniqueOrThrow({
+			where: {
+				name: name,
+			},
+		});
 
 		if (email != user.email) {
 			return {
