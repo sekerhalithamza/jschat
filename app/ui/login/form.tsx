@@ -102,9 +102,6 @@ export default function Form({ version }: { version: "signIn" | "signUp" }) {
 							))}
 					</div>
 					<Submit></Submit>
-					<a href="#" className={`${styles.link}`}>
-						Forgot Password?
-					</a>
 					{signInState?.message && (
 						<p className={`${styles.errorMessage} ${styles.signInError}`}>
 							{signInState.message}

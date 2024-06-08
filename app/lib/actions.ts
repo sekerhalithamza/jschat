@@ -7,14 +7,21 @@ import {
 	FormSchema,
 	SignInState,
 	SignUpState,
-	User,
+	UserSchema,
 } from "@/app/lib/definitions";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { PrismaClient } from "@prisma/client";
-import { hash } from "crypto";
 
-const prisma = new PrismaClient();
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
+import { eq } from "drizzle-orm";
+
+const turso = createClient({
+	url: "libsql://jschat-turso-sekerhalithamza.turso.io",
+	authToken: process.env.DB_AUTH_TOKEN,
+});
+
+const db = drizzle(turso);
 
 const CreateUser = FormSchema.omit({ id: true });
 
@@ -42,12 +49,14 @@ export async function signUp(
 	const hashedPassword = sha256(password);
 
 	try {
-		const user = await prisma.user.create({
-			data: {
-				name: name,
-				email: email,
-				password: hashedPassword,
-			},
+		const result = await db.select().from(UserSchema).all();
+		console.log(result);
+
+		await db.insert(UserSchema).values({
+			id: crypto.randomUUID(),
+			name: name,
+			email: email,
+			password: hashedPassword,
 		});
 	} catch (err) {
 		return {
@@ -80,11 +89,11 @@ export async function signIn(
 	const hashedPassword = sha256(password);
 
 	try {
-		const user = await prisma.user.findUniqueOrThrow({
-			where: {
-				name: name,
-			},
-		});
+		const result = await db
+			.select()
+			.from(UserSchema)
+			.where(eq(UserSchema.name, name));
+		const user = result[0];
 
 		if (email != user.email) {
 			return {
