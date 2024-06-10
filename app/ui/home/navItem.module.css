@@ -1,0 +1,39 @@
+.container {
+	height: 15%;
+	width: 100%;
+	border-bottom: solid var(--background) 2px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 5px;
+	padding-inline-start: 20px;
+}
+
+.title {
+	color: var(--white);
+	font-size: 32px;
+	font-weight: 400;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.message {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+	justify-content: flex-start;
+	color: var(--gray);
+}
+
+.author {
+	font-size: 18px;
+}
+
+.content {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

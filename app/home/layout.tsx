@@ -4,36 +4,28 @@ import { cookies } from "next/headers";
 
 import styles from "@/app/home/home.module.css";
 
-import { NavItem } from "@/app/ui/home/components";
+import NavItem from "@/app/ui/home/navItem";
+import { loginCheck, fetchChats } from "@/app/lib/actions";
 
 export default async function Layout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	const user = await loginCheck();
 
+	const chats = await fetchChats();
 	return (
 		<main className={styles.main}>
 			<nav className={styles.nav}>
-				<NavItem></NavItem>
+				{chats.map((chat) => (
+					<NavItem
+						key={chat.id}
+						chatName={chat.name}
+						authorName={chat.messages[-1]?.authorName}
+						lastMessage={chat.messages[-1]?.content}
+					></NavItem>
+				))}
 			</nav>
 			<section className={styles.section}></section>
 		</main>
 	);
-}
-
-function loginCheck() {
-	const userData = cookies().get("userData");
-	if (!userData?.value) {
-		revalidatePath("/");
-		redirect("/");
-	}
-
-	const user = JSON.parse(userData.value);
-
-	if (!user.name) {
-		revalidatePath("/");
-		redirect("/");
-	}
-
-	return user;
 }

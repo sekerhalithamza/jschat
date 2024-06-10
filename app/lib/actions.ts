@@ -4,9 +4,11 @@ import { sha256 } from "js-sha256";
 import { cookies } from "next/headers";
 
 import {
+	ChatSchema,
 	FormSchema,
 	SignInState,
 	SignUpState,
+	User,
 	UserSchema,
 } from "@/app/lib/definitions";
 import { redirect } from "next/navigation";
@@ -15,6 +17,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { eq } from "drizzle-orm";
+import drizzleConfig from "@/drizzle.config";
 
 const turso = createClient({
 	url: "libsql://jschat-turso-sekerhalithamza.turso.io",
@@ -49,9 +52,6 @@ export async function signUp(
 	const hashedPassword = sha256(password);
 
 	try {
-		const result = await db.select().from(UserSchema).all();
-		console.log(result);
-
 		await db.insert(UserSchema).values({
 			id: crypto.randomUUID(),
 			name: name,
@@ -123,4 +123,25 @@ export async function signIn(
 
 	revalidatePath("/home");
 	redirect("/home");
+}
+
+export async function loginCheck() {
+	const userData = cookies().get("userData");
+	if (!userData?.value) {
+		revalidatePath("/");
+		redirect("/");
+	}
+
+	const user = await JSON.parse(userData.value);
+
+	if (!user.name) {
+		revalidatePath("/");
+		redirect("/");
+	}
+
+	return user;
+}
+
+export async function fetchChats() {
+	return await db.select().from(ChatSchema);
 }
