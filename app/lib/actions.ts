@@ -145,3 +145,7 @@ export async function loginCheck() {
 export async function fetchChats() {
 	return await db.select().from(ChatSchema);
 }
+
+export async function fetchChat(chatId: string) {
+	return await db.select().from(ChatSchema).where(eq(ChatSchema.id, chatId));
+}

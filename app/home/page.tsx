@@ -1,3 +1,5 @@
 import styles from "@/app/home/home.module.css";
 
-export default function Home() { }
+export default async function Home() {
+	return;
+}
