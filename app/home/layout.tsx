@@ -32,7 +32,7 @@ export default async function Layout({
 					></NavItem>
 				))}
 			</nav>
-			<section className={styles.section}>{children}</section>
+			{children}
 		</main>
 	);
 }
